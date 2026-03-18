@@ -1,0 +1,29 @@
+```yaml
+name: TrendRadar Crawler - iMessage
+
+on:
+  schedule:
+    - cron: '*/30 1-7 * * 1-5'
+    - cron: '0 0 * * 1-5'
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
+
+env:
+  AI_API_KEY: ${{ secrets.AI_API_KEY }}
+  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    - run: pip install -r requirements.txt
+    - run: |
+        sed -i "s|api_key: \"\"|api_key: \"$AI_API_KEY\"|g" config/config.yaml
+        sed -i "s|webhook_url: \".*\"|webhook_url: \"$WEBHOOK_URL\"|g" config/config.yaml
+    - run: python -m trendradar
+```
