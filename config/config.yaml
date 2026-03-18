@@ -590,6 +590,90 @@ advanced:
     default: 4000
     dingtalk: 20000
     feishu: 30000
+    app:
+  timezone: "Asia/Shanghai"
+  show_version_update: false
+
+schedule:
+  enabled: true
+  preset: "office_hours"
+
+platforms:
+  enabled: true
+  sources:
+    - id: "wallstreetcn-hot"
+      name: "华尔街见闻"
+    - id: "cls-hot"
+      name: "财联社热门"
+    - id: "cls-telegraph"
+      name: "财联社电报"
+    - id: "weibo"
+      name: "微博"
+    - id: "zhihu"
+      name: "知乎"
+
+rss:
+  enabled: true
+  freshness_filter:
+    enabled: true
+    max_age_days: 1
+  feeds:
+    - id: "cls-7x24"
+      name: "财联社7x24"
+      url: "https://www.cls.cn/telegraph"
+
+report:
+  mode: "current"
+  display_mode: "keyword"
+
+filter:
+  method: "ai"
+  priority_sort_enabled: true
+
+ai_filter:
+  batch_size: 200
+  batch_interval: 2
+  min_score: 0.6
+  reclassify_threshold: 0.6
+
+display:
+  region_order:
+    - new_items
+    - hotlist
+    - rss
+    - ai_analysis
+  regions:
+    hotlist: true
+    new_items: true
+    rss: true
+    standalone: false
+    ai_analysis: true
+
+notification:
+  enabled: true
+  channels:
+    generic_webhook:
+      webhook_url: "http://192.168.50.34:8765/webhook"
+      payload_template: '{"title": "{title}", "content": "{content}"}'
+
+storage:
+  backend: "auto"
+  formats:
+    sqlite: true
+    html: true
+
+ai:
+  model: "deepseek/deepseek-chat"
+  api_key: ""
+  timeout: 120
+  temperature: 0.7
+  max_tokens: 4000
+
+ai_analysis:
+  enabled: true
+  language: "Chinese"
+  mode: "follow_report"
+  max_news_for_analysis: 100
     bark: 4000
     slack: 4000
   batch_send_interval: 3              # 批次发送间隔（秒）
