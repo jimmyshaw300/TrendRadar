@@ -1,0 +1,21 @@
+
+**内容**（复制这个，确保没有特殊字符）：
+```yaml
+name: TrendRadar Crawler
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 1-7 * * 1-5'
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: python -m trendradar
+```
